@@ -6,6 +6,8 @@ namespace dnf5 {
 
 std::vector<std::string> repo_fallbacks(const std::string & name_version) {
     std::smatch match;
+    if (std::regex_match(name_version, match, std::regex("^eln-([0-9]+)$")))
+        return {name_version, "fedora-eln"};
     if (std::regex_match(name_version, match, std::regex("^(rhel|centos|almalinux)-([0-9]+)$")))
         // try rhel-9-x86_64, then epel-9-x86_64
         return {name_version, "epel-" + match.str(2)};
